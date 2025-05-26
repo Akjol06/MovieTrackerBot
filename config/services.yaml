@@ -4,12 +4,36 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    telegram_bot_token: '%env(TELEGRAM_BOT_TOKEN)%'
+    tmdb_api_key: '%env(TMDB_API_KEY)%'
 
 services:
+    App\Telegram\:
+        resource: '../src/Telegram/'
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    App\Command\:
+        resource: '../src/Command'
+        tags: ['console.command']
+        autowire: true
+        autoconfigure: true
+        
+    GuzzleHttp\Client:
+        arguments: []
+        tags: ['http.client']
+
+    GuzzleHttp\ClientInterface: '@GuzzleHttp\Client'
+    
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\Service\TelegramBotService:
+        arguments:
+            $telegramBotToken: '%telegram_bot_token%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
