@@ -28,7 +28,7 @@ class TmdbService
         return $response->toArray();
     }
 
-        public function getGenresMap(): array
+    public function getGenresMap(): array
     {
         if (empty($this->genresMap)) {
             $response = $this->client->request('GET', 'https://api.themoviedb.org/3/genre/movie/list', [

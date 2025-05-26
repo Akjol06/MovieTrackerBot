@@ -11,14 +11,16 @@ class RecommendCommandHandler
 {
     public function __construct(
         private TelegramBotService $bot,
-        private EntityManagerInterface $em
-    ) {}
+        private EntityManagerInterface $em,
+    ) {
+    }
 
     public function handle(int $chatId): void
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['telegramId' => $chatId]);
         if (!$user) {
             $this->bot->sendMessage($chatId, 'Пользователь не найден.');
+
             return;
         }
 
@@ -35,6 +37,7 @@ class RecommendCommandHandler
             } else {
                 $this->bot->sendMessage($chatId, 'Ваши списки пусты, добавьте фильмы в /wishlist или /add.');
             }
+
             return;
         }
 

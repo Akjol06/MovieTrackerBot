@@ -25,28 +25,31 @@ class TelegramCommandRouter
         private RecommendCommandHandler $recommend,
         private StatsCommandHandler $stats,
         private ClearListCommandHandler $clearList,
-        private HelpCommandHandler $help
-    ) {}
+        private HelpCommandHandler $help,
+    ) {
+    }
 
     public function handle(?string $text, int $chatId, ?string $username = null): void
     {
-        if (!$text) return;
+        if (!$text) {
+            return;
+        }
 
-        if ($text === '/start') {
+        if ('/start' === $text) {
             $this->start->handle($chatId, $username);
-        } elseif ($text === '/help') {
+        } elseif ('/help' === $text) {
             $this->help->handle($chatId);
         } elseif (str_starts_with($text, '/add ')) {
             [$title, $year] = $this->extractTitleAndYear($text, 5);
-            if ($title !== null) {
+            if (null !== $title) {
                 $this->add->handle($chatId, $title, $year, $username);
             }
         } elseif (str_starts_with($text, '/wishlist ')) {
             [$title, $year] = $this->extractTitleAndYear($text, 9);
-            if ($title !== null) {
+            if (null !== $title) {
                 $this->wishlist->handle($chatId, $title, $year, $username);
             }
-        } elseif ($text === '/list') {
+        } elseif ('/list' === $text) {
             $this->list->handle($chatId);
         } elseif (str_starts_with($text, '/search ')) {
             $query = trim(mb_substr($text, 8));
@@ -54,11 +57,11 @@ class TelegramCommandRouter
         } elseif (str_starts_with($text, '/remove ')) {
             $title = trim(mb_substr($text, 8));
             $this->remove->handle($chatId, $title);
-        } elseif ($text === '/recommend') {
+        } elseif ('/recommend' === $text) {
             $this->recommend->handle($chatId);
-        } elseif ($text === '/stats') {
+        } elseif ('/stats' === $text) {
             $this->stats->handle($chatId);
-        } elseif ($text === '/clearlist') {
+        } elseif ('/clearlist' === $text) {
             $this->clearList->handle($chatId);
         } else {
             return;
@@ -68,7 +71,7 @@ class TelegramCommandRouter
     private function extractTitleAndYear(string $text, int $prefixLength): array
     {
         $params = trim(mb_substr($text, $prefixLength));
-        if ($params === '') {
+        if ('' === $params) {
             return [null, null];
         }
 
@@ -81,6 +84,7 @@ class TelegramCommandRouter
         }
 
         $title = implode(' ', $parts);
+
         return [$title, $year];
     }
 }

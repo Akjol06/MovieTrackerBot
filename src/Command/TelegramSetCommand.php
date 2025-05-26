@@ -23,7 +23,7 @@ class TelegramSetCommand extends Command
             ->setName('telegram:set-commands')
             ->setDescription('Регистрирует команды Telegram бота через Telegram API');
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->bot->setBotCommands();

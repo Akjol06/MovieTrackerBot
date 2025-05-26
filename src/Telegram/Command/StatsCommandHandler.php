@@ -11,14 +11,16 @@ class StatsCommandHandler
 {
     public function __construct(
         private TelegramBotService $bot,
-        private EntityManagerInterface $em
-    ) {}
+        private EntityManagerInterface $em,
+    ) {
+    }
 
     public function handle(int $chatId): void
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['telegramId' => $chatId]);
         if (!$user) {
             $this->bot->sendMessage($chatId, 'Пользователь не найден.');
+
             return;
         }
 
@@ -26,8 +28,8 @@ class StatsCommandHandler
         $wishlistCount = $this->em->getRepository(Movie::class)->count(['status' => 'wishlist', 'user' => $user]);
 
         $message = "📊 *Статистика пользователя:*\n"
-            . "👀 Просмотрено фильмов: {$watchedCount}\n"
-            . "⭐ В списке желаемого: {$wishlistCount}";
+            ."👀 Просмотрено фильмов: {$watchedCount}\n"
+            ."⭐ В списке желаемого: {$wishlistCount}";
 
         $this->bot->sendMessage($chatId, $message);
     }

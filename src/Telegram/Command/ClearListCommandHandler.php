@@ -11,20 +11,23 @@ class ClearListCommandHandler
 {
     public function __construct(
         private TelegramBotService $bot,
-        private EntityManagerInterface $em
-    ) {}
+        private EntityManagerInterface $em,
+    ) {
+    }
 
     public function handle(int $chatId): void
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['telegramId' => $chatId]);
         if (!$user) {
             $this->bot->sendMessage($chatId, 'Пользователь не найден.');
+
             return;
         }
 
         $movies = $this->em->getRepository(Movie::class)->findBy(['user' => $user]);
         if (empty($movies)) {
             $this->bot->sendMessage($chatId, 'Ваш список уже пуст.');
+
             return;
         }
 

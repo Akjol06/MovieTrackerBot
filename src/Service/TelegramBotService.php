@@ -8,28 +8,31 @@ class TelegramBotService
 {
     private string $token;
 
-    public function __construct(private ClientInterface $client) {
+    public function __construct(private ClientInterface $client)
+    {
         $this->token = $_ENV['TELEGRAM_BOT_TOKEN'] ?? '';
         $this->client = $client;
     }
 
-    public function sendMessage(int $chatId, string $text): void {
+    public function sendMessage(int $chatId, string $text): void
+    {
         $this->client->request('GET', "https://api.telegram.org/bot{$this->token}/sendMessage", [
             'query' => [
                 'chat_id' => $chatId,
                 'text' => $text,
-            ]
+            ],
         ]);
     }
 
-    public function sendPhoto(int $chatId, string $photoUrl, string $caption = ''): void {
+    public function sendPhoto(int $chatId, string $photoUrl, string $caption = ''): void
+    {
         $this->client->request('GET', "https://api.telegram.org/bot{$this->token}/sendPhoto", [
             'query' => [
                 'chat_id' => $chatId,
                 'photo' => $photoUrl,
                 'caption' => $caption,
                 'parse_mode' => 'Markdown',
-            ]
+            ],
         ]);
     }
 
@@ -56,13 +59,14 @@ class TelegramBotService
         $url = "https://api.telegram.org/bot{$this->token}/{$method}";
         $options = [
             'http' => [
-                'header'  => "Content-Type: application/json\r\n",
-                'method'  => 'POST',
+                'header' => "Content-Type: application/json\r\n",
+                'method' => 'POST',
                 'content' => json_encode($params),
             ],
         ];
-        $context  = stream_context_create($options);
+        $context = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
+
         return json_decode($result, true);
     }
 }

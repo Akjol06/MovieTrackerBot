@@ -12,12 +12,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/webhook', name: 'telegram_webhook', methods: ['POST'])]
 class TelegramWebhookController extends AbstractController
 {
-    public function __invoke(Request $request, TelegramCommandRouter $router, LoggerInterface $logger): Response 
+    public function __invoke(Request $request, TelegramCommandRouter $router, LoggerInterface $logger): Response
     {
         $data = json_decode($request->getContent(), true);
         $message = $data['message'] ?? null;
 
-        if (!$message) return new Response();
+        if (!$message) {
+            return new Response();
+        }
 
         $chatId = $message['chat']['id'] ?? null;
         $username = $message['from']['username'] ?? null;

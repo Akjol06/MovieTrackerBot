@@ -2,8 +2,8 @@
 
 namespace App\Telegram\Command;
 
-use App\Entity\User;
 use App\Entity\Movie;
+use App\Entity\User;
 use App\Service\TelegramBotService;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -11,8 +11,9 @@ class ListCommandHandler
 {
     public function __construct(
         private TelegramBotService $bot,
-        private EntityManagerInterface $em
-    ) {}
+        private EntityManagerInterface $em,
+    ) {
+    }
 
     public function handle(int $chatId): void
     {
@@ -20,6 +21,7 @@ class ListCommandHandler
 
         if (!$user) {
             $this->bot->sendMessage($chatId, 'Вы ещё не добавили ни одного фильма.');
+
             return;
         }
 
@@ -27,6 +29,7 @@ class ListCommandHandler
 
         if (!$movies) {
             $this->bot->sendMessage($chatId, 'Ваш список пуст.');
+
             return;
         }
 

@@ -11,20 +11,23 @@ class RemoveCommandHandler
 {
     public function __construct(
         private TelegramBotService $bot,
-        private EntityManagerInterface $em
-    ) {}
+        private EntityManagerInterface $em,
+    ) {
+    }
 
     public function handle(int $chatId, string $title): void
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['telegramId' => $chatId]);
         if (!$user) {
             $this->bot->sendMessage($chatId, 'Пользователь не найден.');
+
             return;
         }
 
         $movie = $this->em->getRepository(Movie::class)->findOneBy(['title' => $title, 'user' => $user]);
         if (!$movie) {
             $this->bot->sendMessage($chatId, "Фильм '$title' не найден в вашем списке.");
+
             return;
         }
 

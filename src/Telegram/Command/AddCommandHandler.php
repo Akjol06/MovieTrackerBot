@@ -12,7 +12,8 @@ class AddCommandHandler
     public function __construct(
         private TelegramBotService $bot,
         private EntityManagerInterface $em)
-    {}
+    {
+    }
 
     public function handle(int $chatId, string $title, ?int $year = null, ?string $username = null): void
     {
@@ -30,7 +31,7 @@ class AddCommandHandler
         $movie->setTitle($title);
         $movie->setStatus('watched');
 
-        if ($year !== null) {
+        if (null !== $year) {
             $movie->setYear($year);
         }
         $movie->setUser($user);
