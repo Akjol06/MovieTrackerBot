@@ -14,7 +14,7 @@ class TelegramBotService
         $this->client = $client;
     }
 
-    public function sendMessage(int $chatId, string $text): void
+    public function sendMessage(string $chatId, string $text): void
     {
         $this->client->request('GET', "https://api.telegram.org/bot{$this->token}/sendMessage", [
             'query' => [
@@ -24,7 +24,7 @@ class TelegramBotService
         ]);
     }
 
-    public function sendPhoto(int $chatId, string $photoUrl, string $caption = ''): void
+    public function sendPhoto(string $chatId, string $photoUrl, string $caption = ''): void
     {
         $this->client->request('GET', "https://api.telegram.org/bot{$this->token}/sendPhoto", [
             'query' => [

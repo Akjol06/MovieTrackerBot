@@ -13,8 +13,8 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(unique: true)]
-    private int $telegramId;
+    #[ORM\Column(type: 'bigint', unique: true)]
+    private string $telegramId;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $username = null;
@@ -31,12 +31,12 @@ class User
         return $this;
     }
 
-    public function getTelegramId(): int
+    public function getTelegramId(): string
     {
         return $this->telegramId;
     }
 
-    public function setTelegramId(int $telegramId): static
+    public function setTelegramId(string $telegramId): static
     {
         $this->telegramId = $telegramId;
 

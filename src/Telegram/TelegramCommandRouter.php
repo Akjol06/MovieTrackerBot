@@ -29,7 +29,7 @@ class TelegramCommandRouter
     ) {
     }
 
-    public function handle(?string $text, int $chatId, ?string $username = null): void
+    public function handle(?string $text, string $chatId, ?string $username = null): void
     {
         if (!$text) {
             return;

@@ -15,7 +15,7 @@ class RemoveCommandHandler
     ) {
     }
 
-    public function handle(int $chatId, string $title): void
+    public function handle(string $chatId, string $title): void
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['telegramId' => $chatId]);
         if (!$user) {

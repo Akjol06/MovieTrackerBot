@@ -15,7 +15,7 @@ class ClearListCommandHandler
     ) {
     }
 
-    public function handle(int $chatId): void
+    public function handle(string $chatId): void
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['telegramId' => $chatId]);
         if (!$user) {

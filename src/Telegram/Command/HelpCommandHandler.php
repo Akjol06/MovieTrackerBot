@@ -10,7 +10,7 @@ class HelpCommandHandler
     {
     }
 
-    public function handle(int $chatId): void
+    public function handle(string $chatId): void
     {
         $message = "👋 *Добро пожаловать в Movie Tracker Bot!*\n\n"
             ."Вот список доступных команд:\n\n"

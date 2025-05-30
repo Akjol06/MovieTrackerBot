@@ -13,7 +13,7 @@ class SearchCommandHandler
     ) {
     }
 
-    public function handle(int $chatId, string $query): void
+    public function handle(string $chatId, string $query): void
     {
         if ('' === $query) {
             $this->bot->sendMessage($chatId, 'Пожалуйста, введите запрос после команды /search.');

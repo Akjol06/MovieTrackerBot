@@ -15,7 +15,7 @@ class AddCommandHandler
     {
     }
 
-    public function handle(int $chatId, string $title, ?int $year = null, ?string $username = null): void
+    public function handle(string $chatId, string $title, ?int $year = null, ?string $username = null): void
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['telegramId' => $chatId]);
         if (!$user) {

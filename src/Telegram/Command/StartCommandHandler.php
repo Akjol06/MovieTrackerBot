@@ -10,7 +10,7 @@ class StartCommandHandler
     {
     }
 
-    public function handle(int $chatId, ?string $username = null): void
+    public function handle(string $chatId, ?string $username = null): void
     {
         $this->bot->sendMessage($chatId, 'Привет, '.($username ?? 'пользователь').'! Я помогу тебе отслеживать фильмы и сериалы.');
     }
